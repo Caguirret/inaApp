@@ -1,83 +1,58 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using inaApp.Common.interfaces;
+using inaApp.Entitites;
 using Microsoft.AspNetCore.Mvc;
 
 namespace inaApi.Controllers
 {
-    public class ClienteController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ClienteController : ControllerBase
     {
-        // GET: ClienteController
-        public ActionResult Index()
+        private readonly IGenericService<Cliente> _clienteService;
+
+        public ClienteController(IGenericService<Cliente> clienteService)
         {
-            return View();
+            _clienteService = clienteService;
         }
 
-        // GET: ClienteController/Details/5
-        public ActionResult Details(int id)
+        // GET: api/cliente
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _clienteService.obtenerTodoAsync();
+            return Ok(data);
         }
 
-        // GET: ClienteController/Create
-        public ActionResult Create()
+        // GET: api/cliente/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var data = await _clienteService.obtenerIdAsync(id);
+            return Ok(data);
         }
 
-        // POST: ClienteController/Create
+        // POST: api/cliente
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(Cliente cliente)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = await _clienteService.CrearAsync(cliente);
+            return Ok(result);
         }
 
-        // GET: ClienteController/Edit/5
-        public ActionResult Edit(int id)
+        // PUT: api/cliente
+        [HttpPut]
+        public async Task<IActionResult> Edit(Cliente cliente)
         {
-            return View();
+            var result = await _clienteService.ActualizarAsync(cliente);
+            return Ok(result);
         }
 
-        // POST: ClienteController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        // DELETE: api/cliente/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ClienteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ClienteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var result = await _clienteService.EliminarAsync(id);
+            return Ok(result);
         }
     }
 }

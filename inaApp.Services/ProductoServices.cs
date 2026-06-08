@@ -1,5 +1,4 @@
-﻿using inaApp.Common.@interface;
-using inaApp.Common.Interfaces;
+﻿using inaApp.Common.interfaces;
 using inaApp.Entitites;
 using System;
 using System.Collections.Generic;
@@ -9,16 +8,21 @@ namespace inaApp.Services
 
     //Tarea Hacer lo mismo pero con cliente: Implementar lo mismo que producto pero con cliente
 {
-    public class ProductoServices : IProductoService
+    public class ProductoServices : IGenericService<Producto>
     {
-        private readonly IProductoRepository productoRepository;
+        private readonly IGenericRepository<Producto> _repository;
 
-        public Task<Producto> ActualizarAsync(Producto producto)
+        public ProductoServices(IGenericRepository<Producto> _productoRepo)
+        {
+            _productoRepo = _repository;
+        }
+
+        public Task<Producto> ActualizarAsync(Producto entity)
         {
             throw new NotImplementedException();
         }
 
-        public Producto CrearAsync(Producto producto)
+        public Task<Producto> CrearAsync(Producto entity)
         {
             throw new NotImplementedException();
         }
@@ -28,18 +32,12 @@ namespace inaApp.Services
             throw new NotImplementedException();
         }
 
-        public List<Producto> obtenerIdAsync(int id)
+        public async Task<List<Producto>> obtenerTodoAsync()
         {
-            throw new NotImplementedException();
+            return await _repository.ObtenerTodoAsync();
         }
 
-        public Task<Producto> obtenerTodoAsync()
-        {
-            productoRepository.obtenerTodoAsync();
-            throw new NotImplementedException();
-        }
-
-        List<Producto> IProductoService.obtenerTodoAsync()
+        Task<Producto> IGenericService<Producto>.obtenerIdAsync(int id)
         {
             throw new NotImplementedException();
         }

@@ -1,38 +1,26 @@
-using inaApp.Common.@interface;
-using inaApp.Common.Interfaces;
-using inaApp.Services;
-using inaApp.Repository;
-using inaApp.Common.interfaces;
+using inaApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-//Inyeccion de dependencias 
-builder.Services.AddScoped<IProductoService, ProductoServices>();
-builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-
-
-builder.Services.AddOpenApi();
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// Add services to the container
 builder.Services.AddControllers();
 
+//INYECCIÓN DE DEPENDENCIAS
+builder.Services.AddAplicationService(builder.Configuration);
+
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure HTTP pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

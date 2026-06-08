@@ -8,11 +8,11 @@ namespace inaApp.Entitites
     {
         public int Id {  get; set; }
 
-        public string nomb { get; set; }        
+        public string nomb { get; set; } = String.Empty;       
 
-        public String apellido1 { get; set; }
+        public String apellido1 { get; set; } = String.Empty;
 
-        public String apellido2 { get; set; }
+        public String apellido2 { get; set; } = String.Empty;
 
         public DateTime fechNac {  get; set; }
 

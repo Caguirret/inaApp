@@ -6,14 +6,14 @@ using System.Text;
 
 namespace inaApp.Repository
 {
-    public class ClienteRepository : IClienteRepository
+    public class ClienteRepository : IGenericRepository<Cliente>
     {
-        public Task<Cliente> ActualizarAsync(Cliente cliente)
+        public Task<Cliente> ActualizarAsync(Cliente entity)
         {
             throw new NotImplementedException();
         }
 
-        public Cliente CrearAsync(Cliente cliente)
+        public Task<Cliente> CrearAsync(Cliente entity)
         {
             throw new NotImplementedException();
         }
@@ -23,17 +23,12 @@ namespace inaApp.Repository
             throw new NotImplementedException();
         }
 
-        public List<Cliente> obtenerIdAsync(int id)
+        public Task<List<Cliente>> ObtenerTodoAsync()
         {
             throw new NotImplementedException();
         }
 
-        public List<Cliente> ObtenerTodo()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Cliente> obtenerTodoAsync()
+        Task<Cliente> IGenericRepository<Cliente>.ObtenerIdAsync(int id)
         {
             throw new NotImplementedException();
         }

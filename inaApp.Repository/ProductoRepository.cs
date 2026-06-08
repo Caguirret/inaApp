@@ -1,4 +1,4 @@
-﻿using inaApp.Common.Interfaces;
+﻿using inaApp.Common.interfaces;
 using inaApp.Entitites;
 using System;
 using System.Collections.Generic;
@@ -6,16 +6,14 @@ using System.Text;
 
 namespace inaApp.Repository
 {
-    public class ProductoRepository : IProductoRepository
+    public class ProductoRepository : IGenericRepository<Producto>
     {
-        public ProductoRepository() { }
-
-        public Task<Producto> ActualizarAsync(Producto producto)
+        public Task<Producto> ActualizarAsync(Producto entity)
         {
             throw new NotImplementedException();
         }
 
-        public Producto CrearAsync(Producto producto)
+        public Task<Producto> CrearAsync(Producto entity)
         {
             throw new NotImplementedException();
         }
@@ -25,12 +23,12 @@ namespace inaApp.Repository
             throw new NotImplementedException();
         }
 
-        public List<Producto> obtenerIdAsync(int id)
+        public Task<List<Producto>> ObtenerTodoAsync()
         {
             throw new NotImplementedException();
         }
 
-        public List<Producto> obtenerTodoAsync()
+        Task<Producto> IGenericRepository<Producto>.ObtenerIdAsync(int id)
         {
             throw new NotImplementedException();
         }

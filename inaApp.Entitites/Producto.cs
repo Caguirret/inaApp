@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
@@ -15,10 +18,13 @@ namespace inaApp.Entitites
     {
 
         //propiedades: son las variables o las caracteristicas de un objeto, ejemplo su ID
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id {  get; set; }
-        public string name {  get; set; }
+        public string name {  get; set; } = string.Empty;
         public decimal price {  get; set; }
-        public string description { get; set;}
+        
+        public string description { get; set;} = string.Empty;
         public bool state {  get; set; }
        
     }

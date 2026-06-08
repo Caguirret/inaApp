@@ -1,5 +1,4 @@
 ﻿using inaApp.Common.interfaces;
-using inaApp.Common.@interface;
 using inaApp.Entitites;
 using System;
 using System.Collections.Generic;
@@ -7,22 +6,21 @@ using System.Text;
 
 namespace inaApp.Services
 {
-    public class ClienteService : ICLienteService
+    public class ClienteService : IGenericService<Cliente>
     {
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IGenericRepository<Cliente> _clienteRepository;
 
-        public ClienteService(IClienteRepository clienteRepository)
+        public ClienteService(IGenericRepository<Cliente> clienteRepo)
         {
-            _clienteRepository = clienteRepository;
-            
+            _clienteRepository = clienteRepo;
         }
 
-        public Cliente ActualizarAsync(Cliente cliente)
+        public Task<Cliente> ActualizarAsync(Cliente entity)
         {
             throw new NotImplementedException();
         }
 
-        public Cliente CrearAsync(Cliente cliente)
+        public Task<Cliente> CrearAsync(Cliente entity)
         {
             throw new NotImplementedException();
         }
@@ -32,12 +30,12 @@ namespace inaApp.Services
             throw new NotImplementedException();
         }
 
-        public Cliente obtenerIdAsync(int id)
+        public Task<List<Cliente>> obtenerTodoAsync()
         {
             throw new NotImplementedException();
         }
 
-        public List<Cliente> obtenerTodoAsync()
+        Task<Cliente> IGenericService<Cliente>.obtenerIdAsync(int id)
         {
             throw new NotImplementedException();
         }
