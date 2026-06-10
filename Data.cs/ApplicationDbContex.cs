@@ -4,7 +4,7 @@ using System.Text;
 using inaApp.Entitites;
 using Microsoft.EntityFrameworkCore;
 
-namespace inaApp.Data.cs
+namespace inaApp.Data
 {
     public class ApplicationDbContex:DbContext
     {
@@ -12,7 +12,7 @@ namespace inaApp.Data.cs
         public ApplicationDbContex(DbContextOptions<ApplicationDbContex> options): base(options)
         {
 
-        
+
         }
 
         public DbSet<Producto> Producto { get; set; }

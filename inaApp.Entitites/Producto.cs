@@ -14,6 +14,7 @@ namespace inaApp.Entitites
     //internal: solo las clases dentro del mismo proyecto pueden acceder a esta clase
     //protected solo permite acceder a los objetos dentro de la misma capa atraves de la herencia 
 {
+    [Table(name:"tbProducto")]
     public class Producto
     {
 
@@ -21,11 +22,14 @@ namespace inaApp.Entitites
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id {  get; set; }
-        public string name {  get; set; } = string.Empty;
-        public decimal price {  get; set; }
-        
-        public string description { get; set;} = string.Empty;
-        public bool state {  get; set; }
+        //[Column("nombre")]
+        public string nombre {  get; set; } = string.Empty;
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal precio {  get; set; }
+        //[Column("descripcion")]
+        public string descripcion { get; set;} = string.Empty;
+        //[Column("estado")]
+        public bool estado {  get; set; }
        
     }
 }

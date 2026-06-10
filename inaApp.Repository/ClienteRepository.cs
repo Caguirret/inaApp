@@ -28,7 +28,7 @@ namespace inaApp.Repository
             throw new NotImplementedException();
         }
 
-        Task<Cliente> IGenericRepository<Cliente>.ObtenerIdAsync(int id)
+        Task<Cliente> IGenericRepository<Cliente>.ObtenerPorIdAsync(int id)
         {
             throw new NotImplementedException();
         }

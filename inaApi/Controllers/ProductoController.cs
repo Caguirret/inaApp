@@ -1,6 +1,6 @@
 ﻿using inaApp.Common.interfaces;
 using inaApp.Entitites;
-using Microsoft.AspNetCore.Http;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace inaApi.Controllers
@@ -18,7 +18,7 @@ namespace inaApi.Controllers
 
         // GET: api/producto
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetAll()
         {
             var data = await _productoService.obtenerTodoAsync();
             return Ok(data);
@@ -26,33 +26,56 @@ namespace inaApi.Controllers
 
         // GET: api/producto/5
         [HttpGet("{id}")]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> ObtenerPorId(int id)
         {
-            return Ok(id);
-        }
+            var producto = await _productoService.obtenerIdAsync(id);
 
-        // POST: api/producto
+            if (producto == null)
+                return NotFound();
+
+            return Ok(producto);
+        }
         [HttpPost]
-        public async Task<IActionResult> Create(Producto producto)
+        public async Task<ActionResult> Create([FromBody] Producto producto)
         {
-            var result = await _productoService.CrearAsync(producto);
-            return Ok(result);
+            try
+            {
+                var result = await _productoService.CrearAsync(producto);
+                return Created("Producto Creado.", result);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Error al crear el producto.");
+            }
         }
 
         // PUT: api/producto
         [HttpPut]
-        public async Task<IActionResult> Edit(Producto producto)
+        public async Task<IActionResult> ActualizarAsync([FromBody] Producto producto)
         {
             var result = await _productoService.ActualizarAsync(producto);
             return Ok(result);
         }
 
-        // DELETE: api/producto/{id}
+        // DELETE: api/producto/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> EliminarAsync(int id)
         {
-            var result = await _productoService.EliminarAsync(id);
-            return Ok(result);
+            try
+            {
+                if (id <= 0)
+                    return BadRequest("Error al eliminar, Id incorrecto");
+
+                var result = await _productoService.EliminarAsync(id);
+
+                return result ? Ok("Producto eliminado") : BadRequest("Error al eliminar alk producto");
+
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, "Error de servidor contacte al admin");
+            }
         }
     }
 }

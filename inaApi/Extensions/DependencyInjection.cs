@@ -1,5 +1,5 @@
 ﻿using inaApp.Common.interfaces;
-using inaApp.Data.cs;
+using inaApp.Data;
 using inaApp.Entitites;
 using inaApp.Repository;
 using inaApp.Services;
