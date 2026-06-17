@@ -15,7 +15,6 @@ namespace inaApp.Repository
         {
             _context = contex;
         }
-
         public async Task<Producto> ActualizarAsync(Producto entity)
         {
             try
@@ -29,7 +28,6 @@ namespace inaApp.Repository
                 throw ex;
             }
         }
-
         public async Task<Producto> CrearAsync(Producto entity)
         {
             try
@@ -43,7 +41,6 @@ namespace inaApp.Repository
                 throw;
             }
         }
-
         public async Task<bool> EliminarAsync(int Id)
         {
             try
@@ -53,7 +50,7 @@ namespace inaApp.Repository
                 {
                     return false;
                 }
-                producto.estado = false;
+                producto.Estado = false;
                 _context.Producto.Update(producto);
                 await _context.SaveChangesAsync();
                 return true;
@@ -68,7 +65,11 @@ namespace inaApp.Repository
         {
             try
             {
-                return await _context.Producto.Where(x => x.estado == true).ToListAsync();
+                return await _context.Producto
+                    .Include(P => P.Categoria)
+                    .AsNoTracking()
+                    .Where(x => x.Estado == true)
+                    .ToListAsync();
             }
             catch (Exception)
             {
@@ -77,18 +78,17 @@ namespace inaApp.Repository
             }
         }
 
-        public async Task<Producto> ObtenerPorIdAsync(int Id)
+        public async Task<Producto> ObtenerPorIdAsync(int id)
         {
             try
             {
-                var entity = await _context.Producto.Where(x => x.id == Id && x.estado == true).SingleOrDefaultAsync();
-                if(entity == null)
-                    throw new Exception("No se encontro la entidad");
-                return entity;
+                return await _context.Producto
+                    .Include(p => p.Categoria)
+                    .Where(x => x.Id == id && x.Estado ==true)
+                    .SingleAsync();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

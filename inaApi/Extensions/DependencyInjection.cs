@@ -1,18 +1,22 @@
 ﻿using inaApp.Common.interfaces;
 using inaApp.Data;
+using inaApp.DTOs.Cliente;
+using inaApp.DTOs.Producto;
 using inaApp.Entitites;
 using inaApp.Repository;
 using inaApp.Services;
+using inaApp.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace inaApi.Extensions
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddAplicationService(this IServiceCollection services,
+        public static IServiceCollection AddAplicationService
+            (this IServiceCollection services,
             IConfiguration configuration)
         {
-            //Base de datos 
+            //Base de datos - dbContext
 
             services.AddDbContext<ApplicationDbContex>(options=>
             {
@@ -21,11 +25,14 @@ namespace inaApi.Extensions
 
             });
 
+            //Profile auto mapper
+            services.AddAutoMapper(fg => { }, typeof(MappingProfile));
+
 
 
             //Inyecciones de dependencia de services 
-            services.AddScoped<IGenericService<Producto>, ProductoServices>();
-            services.AddScoped<IGenericService<Cliente>, ClienteService>();
+            services.AddScoped<IGenericService<ProductoResponseDTO, ProductoCreateDTO, ProductoUpdateDTO>, ProductoServices>();
+            services.AddScoped<IGenericService<ClienteResponseDTO, ClienteCreateDTO, ClienteUpdateDTO>, ClienteService>();
 
 
 

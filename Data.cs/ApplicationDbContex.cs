@@ -17,5 +17,23 @@ namespace inaApp.Data
 
         public DbSet<Producto> Producto { get; set; }
 
+        public DbSet<Cliente> Cliente { get; set; }
+
+        public DbSet<Categoria> Categorias { get; set; }
+
+        //Fluite api
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Relacion producto Categoria
+
+            //Relacion clienter con el tipo de cliente
+
+            //
+
+
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

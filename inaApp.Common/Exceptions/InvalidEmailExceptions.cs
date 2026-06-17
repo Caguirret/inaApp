@@ -4,13 +4,13 @@ using System.Text;
 
 namespace inaApp.Common.Exceptions
 {
-    public class InvalidPriceException : Exception
+    public class InvalidEmailExceptions : Exception
     {
-        public InvalidPriceException()
+        public InvalidEmailExceptions()
         {
         }
 
-        public InvalidPriceException(string? message) : base(message)
+        public InvalidEmailExceptions(string? message) : base(message)
         {
         }
     }

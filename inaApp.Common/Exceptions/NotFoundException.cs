@@ -4,7 +4,14 @@ using System.Text;
 
 namespace inaApp.Common.Exceptions
 {
-    internal class NotFoundException
+    public class NotFoundException : Exception
     {
+        public NotFoundException()
+        {
+        }
+
+        public NotFoundException(string? message) : base(message)
+        {
+        }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using inaApp.Data;
 
@@ -11,9 +12,11 @@ using inaApp.Data;
 namespace inaApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContex))]
-    partial class ApplicationDbContexModelSnapshot : ModelSnapshot
+    [Migration("20260615032650_AddClienteTable")]
+    partial class AddClienteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,27 +24,6 @@ namespace inaApp.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("inaApp.Entitites.Categoria", b =>
-                {
-                    b.Property<int>("IdCategoria")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategoria"));
-
-                    b.Property<bool>("Estado")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("IdCategoria");
-
-                    b.ToTable("tbCategoria");
-                });
 
             modelBuilder.Entity("inaApp.Entitites.Cliente", b =>
                 {
@@ -114,9 +96,6 @@ namespace inaApp.Data.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("estado");
 
-                    b.Property<int?>("IdCategoria")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -130,23 +109,7 @@ namespace inaApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IdCategoria");
-
                     b.ToTable("tbProducto");
-                });
-
-            modelBuilder.Entity("inaApp.Entitites.Producto", b =>
-                {
-                    b.HasOne("inaApp.Entitites.Categoria", "Categoria")
-                        .WithMany("Productos")
-                        .HasForeignKey("IdCategoria");
-
-                    b.Navigation("Categoria");
-                });
-
-            modelBuilder.Entity("inaApp.Entitites.Categoria", b =>
-                {
-                    b.Navigation("Productos");
                 });
 #pragma warning restore 612, 618
         }

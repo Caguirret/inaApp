@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.CompilerServices;
 using System.Text;
-using static inaApp.Common.Enums.Enumeradores;
 
-namespace inaApp.Entitites
+namespace inaApp.DTOs.Cliente
 {
-    [Table("tbCliente")]
-    [Index(nameof(TipoIdentificacion), nameof(NumeroIdentificacion), IsUnique = true)]
-    public class Cliente
+    public class ClienteCreateDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdClient {  get; set; }
 
         [Required]
         public String TipoIdentificacion { get; set; } = String.Empty;
@@ -25,12 +17,12 @@ namespace inaApp.Entitites
         public string NumeroIdentificacion { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength (100)]
+        [MaxLength(100)]
         public String Nombre { get; set; } = String.Empty;
 
         [Required]
         [MaxLength(50)]
-        public String PrimerApellido {  get; set; } = String.Empty;
+        public String PrimerApellido { get; set; } = String.Empty;
 
         [MaxLength(50)]
         public String? SegundoApellido { get; set; } = String.Empty;
@@ -42,10 +34,5 @@ namespace inaApp.Entitites
         [Phone]
         [MaxLength(12)]
         public String NumTelefono { get; set; } = string.Empty;
-
-        public bool Estado {  get; set; }
-
-        public DateTime FechaCreacion { get; set; }
-
     }
 }

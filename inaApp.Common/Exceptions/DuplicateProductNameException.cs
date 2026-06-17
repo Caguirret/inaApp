@@ -4,7 +4,14 @@ using System.Text;
 
 namespace inaApp.Common.Exceptions
 {
-    internal class DuplicateProductNameException
+    public class DuplicateProductNameException : Exception
     {
+        public DuplicateProductNameException()
+        {
+        }
+
+        public DuplicateProductNameException(string? message) : base(message)
+        {
+        }
     }
 }

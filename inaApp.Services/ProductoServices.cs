@@ -1,86 +1,140 @@
 ﻿using inaApp.Common.interfaces;
 using inaApp.Common.Exceptions;
 using inaApp.Entitites;
+using inaApp.Common.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using inaApp.DTOs.Producto;
+using AutoMapper;
 
 namespace inaApp.Services
 
     //Tarea Hacer lo mismo pero con cliente: Implementar lo mismo que producto pero con cliente
 {
-    public class ProductoServices : IGenericService<Producto>
+    public class ProductoServices : IGenericService<
+        ProductoResponseDTO,
+        ProductoCreateDTO,
+        ProductoUpdateDTO>
     {
         private readonly IGenericRepository<Producto> _productoRepo;
+        private readonly IMapper _mapper;
 
-        public ProductoServices(IGenericRepository<Producto> productoRepo)
+        public ProductoServices(IGenericRepository<Producto> productoRepo, IMapper mapper)
         {
             _productoRepo = productoRepo;
+            _mapper = mapper;
         }
 
-        public async Task<Producto> ActualizarAsync(Producto entity)
+        public async Task<Response<ProductoResponseDTO>> ActualizarAsync(ProductoUpdateDTO entity)
         {
-            if (entity.precio <= 0)
+            if (entity.Precio <= 0)
             {
                 throw new InvalidPriceException("El precio digitado debe ser mayor a 0");
             }
 
-            //Validar que no se duplique el nombre
-            var producto = await _productoRepo.ObtenerTodoAsync();
+            var productos = await _productoRepo.ObtenerTodoAsync();
 
-            if(producto.Any(p => p.nombre.ToLower() == entity.nombre.ToLower() && p.id != entity.id && p.estado==true))
+            if (productos.Any(p =>
+                p.Nombre.ToLower() == entity.Nombre.ToLower() &&
+                p.Id != entity.Id &&
+                p.Estado))
             {
-                throw new DuplicateProductNameException($"El nombre{entity.nombre} Ya existe");
+                throw new DuplicateProductNameException(
+                    $"El nombre {entity.Nombre} ya existe");
             }
-            return await _productoRepo.ActualizarAsync(entity);
+
+            var productoActualizar = _mapper.Map<Producto>(entity);
+
+            productoActualizar =
+                await _productoRepo.ActualizarAsync(productoActualizar);
+
+            return new Response<ProductoResponseDTO>
+            {
+                Data = _mapper.Map<ProductoResponseDTO>(productoActualizar),
+                Message = "Producto actualizado exitosamente",
+                Success = true
+            };
         }
 
-        public async Task<Producto> CrearAsync(Producto entity)
+        public async Task<Response<ProductoResponseDTO>> CrearAsync(ProductoCreateDTO entity)
         {
-            //Reglas de negocio
-            //precio > 0 == InvalidPriceException
-            //nombre repetido == DuplicateProductNameException
-            //stock negativo a 0 == InvalidStockException
-
-            if (entity.precio <= 0)
+            if (entity.Precio <= 0)
             {
                 throw new InvalidPriceException("El precio digitado debe ser mayor a 0");
             }
 
-            //Validar que no se duplique el nombre
-            var producto = await _productoRepo.ObtenerTodoAsync();
+            var productos = await _productoRepo.ObtenerTodoAsync();
 
-            bool nombrExist = producto.Any(p =>
-            p.nombre.ToLower() == entity.nombre.ToLower());
+            bool nombrExist = productos.Any(p =>
+                p.Nombre.ToLower() == entity.Nombre.ToLower());
 
             if (nombrExist)
             {
                 throw new DuplicateProductNameException(
-                    $"Lo siento, pero ya existe un producto con el nombre: {entity.nombre}");
+                    $"Lo siento, pero ya existe un producto con el nombre: {entity.Nombre}");
             }
 
-            return await _productoRepo.CrearAsync(entity);
+            Producto nuevoProducto = _mapper.Map<Producto>(entity);
+
+            nuevoProducto.Estado = true;
+
+            Producto productoCreado =
+                await _productoRepo.CrearAsync(nuevoProducto);
+
+            return new Response<ProductoResponseDTO>
+            {
+                Data = _mapper.Map<ProductoResponseDTO>(productoCreado),
+                Message = "Producto creado exitosamente",
+                Success = true
+            };
         }
 
-        public async Task<bool> EliminarAsync(int id)
+        public async Task<Response<bool>> EliminarAsync(int id)
         {
-            return await _productoRepo.EliminarAsync(id);
+            var eliminado = await _productoRepo.EliminarAsync(id);
+
+            return new Response<bool>
+            {
+                Data = eliminado,
+                Message = eliminado
+                ? "Producto eliminado con exito" 
+                : "No se pudo eliminar el producto",
+                Success = eliminado
+            };
         }
 
-        public async Task<List<Producto>> obtenerTodoAsync()
+        public async Task<Response<List<ProductoResponseDTO>>> ObtenerTodoAsync()
         {
-            return await _productoRepo.ObtenerTodoAsync();
+            //obtener la lista de los producto por medio de los dtos
+            var lista = await _productoRepo.ObtenerTodoAsync();
+
+            var productos = _mapper.Map<List<ProductoResponseDTO>>(lista);
+
+            return new Response<List<ProductoResponseDTO>>
+            {
+                Data = productos,
+                Message = "Lista obtenida del sistema existosamente",
+                Success = true
+            };
+
         }
 
-        async Task<Producto> IGenericService<Producto>.obtenerIdAsync(int id)
+        public async Task<Response<ProductoResponseDTO>> ObtenerIdAsync(int id)
         {
             var producto= await _productoRepo.ObtenerPorIdAsync(id);
+
             if (producto is null)
             {
                 throw new NotFoundException($"El producto con id {id} no existe");
             }
 
-            return producto;
+            return new Response<ProductoResponseDTO>
+            {
+                Data = _mapper.Map<ProductoResponseDTO>(producto),
+                Message = "Producto encontrado dentro del sistema",
+                Success = true
+            };
         }
     }
 }

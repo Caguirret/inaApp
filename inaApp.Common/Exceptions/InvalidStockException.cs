@@ -4,7 +4,14 @@ using System.Text;
 
 namespace inaApp.Common.Exceptions
 {
-    internal class InvalidStockException
+    public class InvalidStockException : Exception
     {
+        public InvalidStockException()
+        {
+        }
+
+        public InvalidStockException(string? message) : base(message)
+        {
+        }
     }
 }
