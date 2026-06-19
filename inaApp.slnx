@@ -1,7 +1,8 @@
 <Solution>
-  <Project Path="Data.cs/Data.cs.csproj" Id="ebfa503b-071e-4d7e-9168-59ffea34a6f3" />
+  <Project Path="Data.cs/inaApp.Data.csproj" Id="ebfa503b-071e-4d7e-9168-59ffea34a6f3" />
   <Project Path="inaApi/inaApp.Api.csproj" />
   <Project Path="inaApp.Common/inaApp.Common.csproj" />
+  <Project Path="inaApp.DTOs/inaApp.DTOs.csproj" Id="ce1cb5f1-82c7-48a4-9a4a-cfc9efdb207a" />
   <Project Path="inaApp.Entitites/inaApp.Entitites.csproj" />
   <Project Path="inaApp.Repository/inaApp.Repository.csproj" />
   <Project Path="inaApp.Services/inaApp.Services.csproj" />

@@ -1,21 +1,18 @@
-﻿using inaApp.Entitites;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using inaApp.Common.Response;
 
 namespace inaApp.Common.interfaces
 {
     //Parametrizar la interfaz para que pueda ser reutilizada con cualquier entidad
-    public interface IGenericService<E>
+    public interface IGenericService<TResponse, TCreate, TUpdate>
     {
-        Task<List<E>> obtenerTodoAsync();
+        Task<Response<List<TResponse>>> ObtenerTodoAsync();
 
-        Task<E> obtenerIdAsync(int id);
+        Task<Response<TResponse>> ObtenerIdAsync(int Id);
 
-        Task<E> CrearAsync(E entity);
+        Task<Response<TResponse>> CrearAsync(TCreate entity);
 
-        Task<E> ActualizarAsync(E entity);
+        Task<Response<TResponse>> ActualizarAsync(TUpdate entity);
 
-        Task<bool> EliminarAsync(int id);
+        Task<Response<bool>> EliminarAsync(int Id);
     }
 }

@@ -1,4 +1,6 @@
 using inaApi.Extensions;
+using inaApp.Common.interfaces;
+using inaApp.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +9,9 @@ builder.Services.AddControllers();
 
 //INYECCIÓN DE DEPENDENCIAS
 builder.Services.AddAplicationService(builder.Configuration);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 

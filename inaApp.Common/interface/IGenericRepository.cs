@@ -8,7 +8,7 @@ namespace inaApp.Common.interfaces
     {
         Task<List<E>> ObtenerTodoAsync();
 
-        Task<E> ObtenerIdAsync(int id);
+        Task<E> ObtenerPorIdAsync(int id);
 
         Task<E> CrearAsync(E entity);
 
