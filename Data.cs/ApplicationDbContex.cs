@@ -24,13 +24,10 @@ namespace inaApp.Data
         //Fluite api
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Relacion producto Categoria
-
-            //Relacion clienter con el tipo de cliente
-
-            //
-
-
+            modelBuilder.Entity<Producto>()
+                .HasOne(p => p.Categoria)
+                .WithMany(c => c.Productos)
+                .HasForeignKey(p => p.IdCategoria);
 
             base.OnModelCreating(modelBuilder);
         }

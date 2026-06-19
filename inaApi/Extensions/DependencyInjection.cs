@@ -1,5 +1,6 @@
 ﻿using inaApp.Common.interfaces;
 using inaApp.Data;
+using inaApp.DTOs.Categoria;
 using inaApp.DTOs.Cliente;
 using inaApp.DTOs.Producto;
 using inaApp.Entitites;
@@ -33,13 +34,15 @@ namespace inaApi.Extensions
             //Inyecciones de dependencia de services 
             services.AddScoped<IGenericService<ProductoResponseDTO, ProductoCreateDTO, ProductoUpdateDTO>, ProductoServices>();
             services.AddScoped<IGenericService<ClienteResponseDTO, ClienteCreateDTO, ClienteUpdateDTO>, ClienteService>();
-
+            services.AddScoped<IGenericService<CategoriaResponseDTO,CategoriaCreateDTO,CategoriaUpdateDTO>,CategoriaService>();
 
 
 
             //Inyecciones de dependencias de repositorios 
             services.AddScoped<IGenericRepository<Producto>, ProductoRepository>();
             services.AddScoped<IGenericRepository<Cliente>, ClienteRepository>();
+            services.AddScoped<IGenericRepository<Categoria>,CategoriaRepository>();
+
 
             return services;
         }

@@ -4,7 +4,7 @@ using inaApp.DTOs.Cliente;
 using inaApp.Entitites;
 using Microsoft.AspNetCore.Mvc;
 
-namespace inaApi.Controllers
+namespace inaApi.aControllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -65,27 +65,36 @@ namespace inaApi.Controllers
         }
 
         // PUT: api/cliente
-        [HttpPut]
-        public async Task<IActionResult> Actualizar(ClienteUpdateDTO cliente)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ActualizarAsync(int id, [FromBody] ClienteUpdateDTO cliente)
         {
             try
             {
+                if (id != cliente.IdClient)
+                {
+                    return BadRequest("El ID de la URL no coincide con el ID enviado.");
+                }
+
                 var result = await _clienteService.ActualizarAsync(cliente);
                 return Ok(result);
             }
-            catch (DuplicateClientException ex)
+            catch (DuplicateClientException)
             {
-                return BadRequest("Error al modificar datos invalidos");
+                return BadRequest("Error al modificar datos inválidos.");
             }
-            catch(Exception ex)
+            catch (NotFoundException)
             {
-                return StatusCode(500, "Error interno del servidor");
+                return NotFound("El cliente no existe.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.ToString());
             }
         }
 
         // DELETE: api/cliente/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> EliminarAsync(int id)
         {
             var result = await _clienteService.EliminarAsync(id);
 

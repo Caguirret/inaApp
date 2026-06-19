@@ -51,6 +51,8 @@ namespace inaApp.Entitites
         [Column(name:"estado")]
         public bool Estado {  get; set; }
 
+        public DateTime FechaCreacion { get; set; }
+
         //Categoria relacion con Productos 
         public int? IdCategoria { get; set; }
 

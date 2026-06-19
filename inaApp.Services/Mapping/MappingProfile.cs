@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using inaApp.DTOs.Categoria;
 using inaApp.DTOs.Cliente;
 using inaApp.DTOs.Producto;
 using inaApp.Entitites;
@@ -36,6 +37,14 @@ namespace inaApp.Services.Mapping
                 ? src.Categoria.Nombre
                 : null)
                 );
+
+            //MAPPEO DE LOS ATRIBUTOS DE CATEGORIA 
+            //DTOs CREATE A ENTITY
+            CreateMap<CategoriaCreateDTO, Categoria>();
+            //DTOS UPDATE A ENTITY
+            CreateMap<CategoriaUpdateDTO, Categoria>();
+            //ENTITY DTOS RESPONSE
+            CreateMap<Categoria, CategoriaResponseDTO>();
         }
     }
 }
